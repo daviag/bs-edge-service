@@ -1,5 +1,6 @@
 package com.daviag.bookshop.edgeservice.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,10 +13,12 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class UserController {
 
     @GetMapping("/user")
     public Mono<User> getUser(@AuthenticationPrincipal OidcUser oidcUser) {
+        log.info("Fetching information about the currently authenticated user");
         return Mono.just(new User(
                 oidcUser.getPreferredUsername(),
                 oidcUser.getGivenName(),
