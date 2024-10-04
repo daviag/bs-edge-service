@@ -48,17 +48,16 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 15
           env:
-            - name: BPL_JVM_THREAD_COUNT
-              value: "50"
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-service
-            - name: SPRING_DATA_REDIS_HOST
-              value: bookshop-redis
             - name: CATALOG_SERVICE_URL
               value: http://catalog-service
             - name: ORDER_SERVICE_URL
               value: http://order-service
             - name: SPA_URL
               value: http://bookshop-ui
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
-              value: http://bookshop-keycloak/realms/Bookshop
+          volumeMounts:
+            - name: edge-config-volume
+              mountPath: /workspace/config
+      volumes:
+        - name: edge-config-volume
+          configMap:
+            name: edge-config
